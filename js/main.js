@@ -1,23 +1,27 @@
-$(document).ready(function () {
-
     function extract(link) {
         let domain = document.createElement('a');
         domain.href = link;
-        return domain;
+        link = domain.hostname;
+        this.link = link;
     }
-    $('button').click(function () {
-        let url = $('input').val();
-        let extracted = extract(url);
-        let host = extracted.hostname;
-        let splittedHost = host.split('www').join('');
-        splittedHost = splittedHost.split('.');
-        console.log(splittedHost);
-        let subDomain = host.split('.');
-        if (splittedHost[0] == "") {
-            alert('Domain: ' + host);
-        } else {
-            alert('Domain: ' + host + '\n' + 'Subdomain: ' + subDomain[0]);
-        }
+    extract.prototype.host = function () {
+        alert('Domain: ' + this.link);
+
+    }
+    extract.prototype.subDomain = function () {
+        let splittedHost = this.link.split('www');
+        let joined = splittedHost.join('');
+        joined = joined.split('.');
+
+        alert('Domain: ' + this.link + '\n' + 'Subdomain: ' + joined[0]);
+    }
+    $(document).ready(function () {
+        $('button').click(function () {
+            var $input = $('#url').val();
+            var obj = new extract($input);
+            obj.host();
+            obj.subDomain();
+
+        });
 
     });
-});
